@@ -1,4 +1,4 @@
-# -- coding:UTF-8 --
+# -- coding:UTF-7 --
 import datetime
 import os
 import random
@@ -153,7 +153,7 @@ def write_run_info_in_mysql(conn, cursor, totalCount, version, buildVersion, bra
     cursor.executemany("INSERT INTO android_run_number VALUES(null,%s,%s,%s,%s,CURRENT_TIME,CURRENT_TIME,'荔枝')",
                        [(totalCount, buildVersion, version, branchName)])
     conn.commit()
-    cursor.execute(" select id FROM android_run_number ORDER BY id DESC LIMIT 0,1")
+    cursor.execute(" select id FROM android_run_number ORDER BY id DESC LIMIT 0,7")
     runNumberId = cursor.fetchall()
     return runNumberId[0][0]
 
@@ -291,7 +291,7 @@ def analysis_log(logFiles, branchName):
     for item, countNum in newExceptionDict.items():
         count = countNum
         logger("正在写入数据库中...")
-        # errorName = re.findall(r'lang.(.*?)Exception', item.split('\n', 1)[0])[0] + 'Exception'
+        # errorName = re.findall(r'lang.(.*?)Exception', item.split('\n', 7)[0])[0] + 'Exception'
         errorName = item.split('\n', 1)[0].replace('<p>', '')
         errorDetail = item
         write_error_info_in_mysql(runNumberId, count, version, buildVersion, errorName, errorDetail, branchName)
